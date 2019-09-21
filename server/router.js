@@ -43,7 +43,7 @@ router.route("/register").post((req, res) => {
 
 
 router.route("/login").post((req, res) => {
-  
+
   const user = new User({
     username: req.body.username,
     password: req.body.password
@@ -58,7 +58,7 @@ router.route("/login").post((req, res) => {
         console.log(`login ID: ${req.user._id}`);
         res.json({"status":"Success","user_id":req.user._id});
       });
-      
+
     }
   });
 
@@ -90,13 +90,13 @@ router.route("/nearbyTeller/:money").get((req, res) => {
   })
 });
 
-router.route('/logLocation').post((req,res) => {
-  User.findById(req.session.id)
+router.route('/logLocation/:user_id').post((req,res) => {
+  User.findById(req.params.user_id)
       .then(user => {
           user.location = {long: req.body.long, lat: req.body.lat}
 
           user.save()
-            .then(()=>res.json('User updated!'))
+            .then(()=>res.json('User updated! Location Logged'))
             .catch(err => res.status(400).json('Error: ' + err))
       })
       .catch(err => res.status(400).json('Error: ' + err))
