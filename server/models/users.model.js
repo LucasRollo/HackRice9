@@ -16,7 +16,7 @@ const locationSchema = new Schema({
 const userSchema = new Schema({
   f_name: { type: String, required: true },
   l_name: { type: String, required: true },
-  pass: { type: String, required: true },
+  password: { type: String, required: false },
   username: { type: String, required: true, unique: true, minLength: 7 },
   phone: { type: String, required: true },
   teller: { type: Boolean, required: true },
