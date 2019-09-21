@@ -157,4 +157,49 @@ router.route('/addOrder').post((req, res) => {
     .catch(err => res.status(400).json("Error: " + err))
 });
 
+router.route('/lastOrder').get((req, res)=> {
+  Order.find()
+    .then(orders => {
+      lastOrder = []
+
+      orders.forEach((order, i) => {
+        if(order.sender = req.session.id) {
+          User.findById(order.reciever)
+            .then(recepient => {
+              lastOrder[0] = recepient.f_name + " " + recepient.l_name;
+              lastOrder[1] = recepient.phone;
+              lastOrder[2] = order.amount;
+              lastOrder[3] = "Teller"
+              res.json(lastOrder)
+            })
+
+          break;
+        }
+        else if(order.reciever = req.session.id) {
+          User.findById(order.sender)
+            .then(sender => {
+              lastOrder[0] = sender.f_name + " " + sender.l_name;
+              lastOrder[1] = sender.phone;
+              lastOrder[2] = order.amount;
+              lastOrder[3] = "Recipient"
+              res.json(lastOrder)
+            })
+
+          break;
+        }
+      });
+    })
+})
+
+router.route('/bankBalance').get((req,res) => {
+  User.findById(req.session.id)
+    .then(user => {
+      axios.get(`http://api.reimaginebanking.com/customers/${user.customer_id}/accounts?key=${process.env.NESSY_DEV_KEY}`)
+        .then(response => {
+          res.json(response[0].balance)
+        })
+        .catch(err => res.json(err))
+    })
+})
+
 module.exports = router;
