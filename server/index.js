@@ -4,6 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const passport = require("passport");
+const clientSessions = require("client-sessions");
 const passportLocalMongoose = require("passport-local-mongoose");
 const request = require("request");
 
@@ -24,6 +25,7 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false }

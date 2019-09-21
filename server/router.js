@@ -43,7 +43,7 @@ router.route("/register").post((req, res) => {
 
 
 router.route("/login").post((req, res) => {
-
+  
   const user = new User({
     username: req.body.username,
     password: req.body.password
@@ -55,7 +55,8 @@ router.route("/login").post((req, res) => {
       res.json({"status":"Wrong"});
     } else {
       passport.authenticate("local")(req, res, function(){
-        res.json({"status":"Success"});
+        console.log(`login ID: ${req.user._id}`);
+        res.json({"status":"Success","user_id":req.user._id});
       });
       
     }
@@ -194,14 +195,16 @@ router.route('/lastOrder').get((req, res)=> {
 })
 
 router.route('/bankBalance').get((req,res) => {
-  User.findById(req.session.id)
-    .then(user => {
-      axios.get(`http://api.reimaginebanking.com/customers/${user.customer_id}/accounts?key=${process.env.NESSY_DEV_KEY}`)
-        .then(response => {
-          res.json(response[0].balance)
-        })
-        .catch(err => res.json(err))
-    })
+  console.log(`id: ${req.session.username}`);
+  res.json(req.user);
+  // User.findById(req.session.id)
+  //   .then(user => {
+  //     axios.get(`http://api.reimaginebanking.com/customers/${user.customer_id}/accounts?key=${process.env.NESSY_DEV_KEY}`)
+  //       .then(response => {
+  //         res.json(response[0].balance)
+  //       })
+  //       .catch(err => res.json(err))
+  //   })
 })
 
 module.exports = router;

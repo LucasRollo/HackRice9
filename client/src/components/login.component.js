@@ -45,6 +45,7 @@ export default class Login extends Component{
             .then(res => {
                 console.log(res);
                 if(res.data.status==="Success"){
+                    document.cookie=`${res.data.user_id}`;
                     window.location=("/");
                 }
             })

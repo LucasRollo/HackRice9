@@ -20,11 +20,13 @@ export default class Nav extends Component{
         }
     };
     componentDidMount(){
-        var uri="localhost:5000/bankBalance";
-        axios.get(uri)
+        var uri="http://localhost:5000/bankBalance";
+        console.log(uri);
+        axios.get(uri,)
         .then(res => {
+            console.log(res);
             this.setState({
-                bankBalance=res.data.bankBalance,
+                bankBalance:res.data.bankBalance,
             });
         })
         .catch(err =>{
@@ -34,10 +36,10 @@ export default class Nav extends Component{
     
     render(){
         return(
-            <nav class="navbar navbar-light bg-light">
-                <button class="button"><img src={Book}></img></button>
-                <h3>{bankBalance}</h3>
-                <button class="button"><img src={Book}></img></button>
+            <nav className="navbar navbar-light bg-light">
+                <button className="button"><img src={Book}></img></button>
+                <h3>{this.state.bankBalance}</h3>
+                <button className="button"><img src={Book}></img></button>
             </nav>
         )
     }
