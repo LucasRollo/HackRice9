@@ -80,7 +80,9 @@ export default class Register extends Component{
         console.log(uri);
         axios
             .post(uri,newUser)
-            .then(res => console.log(res))
+            .then((res) => {
+                console.log(res);
+            })
             .catch(err => console.log(err))
 
     }

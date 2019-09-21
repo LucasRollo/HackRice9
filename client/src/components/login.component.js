@@ -42,8 +42,16 @@ export default class Login extends Component{
         const uri="http://localhost:5000/login"
         console.log(uri);
         axios.post(uri,login)
-            .then(res => console.log(res))
-            .catch(err => console.log(err))
+            .then(res => {
+                console.log(res);
+                if(res.data.status==="Success"){
+                    window.location=("/");
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                document.getElementById("alert").style.display='block';
+            })
     }
     render(){
         return(
@@ -63,6 +71,7 @@ export default class Login extends Component{
                 </Button>
                 <br></br>
                 <Link to="/register">Dont have an account. Create One</Link>
+                <h6 id="alert" style={{display: 'none',color:'red'}}>Incorrect Username and password</h6>
             </Form>
         )
     }

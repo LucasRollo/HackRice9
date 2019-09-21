@@ -50,11 +50,12 @@ router.route("/login").post((req, res) => {
   req.login(user, function(err){
     if (err) {
       console.log(err);
+      res.json({"status":"Wrong"});
     } else {
       passport.authenticate("local")(req, res, function(){
-        res.json({"status":"logged in succesfully"});
+        res.json({"status":"Success"});
       });
-      res.json({"status":"logged in succesfully"});
+      
     }
   });
   
