@@ -1,8 +1,8 @@
 const router = require('express').Router();
 
-let User = require("models/user.model");
+let User = require("./models/users.model");
 
-//ROUTES START
+//Login/Register
 
 router.route('/').get((req,res) => {
   if (req.isAuthenticated()){
@@ -47,5 +47,7 @@ router.route("/login").post((req, res) => {
       });
     }
   });
-
 });
+
+
+module.exports = router;
