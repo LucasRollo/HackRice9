@@ -1,7 +1,7 @@
 //jshint esversion:6
 const passport = require("passport");
 const router = require('express').Router();
-const axios = require('axios').Router();
+const axios = require('axios');
 let User = require("./models/users.model");
 let Order = require("./models/orders.model")
 
@@ -92,7 +92,7 @@ router.route("/nearbyTeller/:money").get((req, res) => {
 router.route('/logLocation').post((req,res) => {
   User.findById(req.session.id)
       .then(user => {
-          user.location = {long = req.body.long, lat = req.body.lat}
+          user.location = {long: req.body.long, lat: req.body.lat}
 
           user.save()
             .then(()=>res.json('User updated!'))
@@ -162,7 +162,8 @@ router.route('/lastOrder').get((req, res)=> {
     .then(orders => {
       lastOrder = []
 
-      orders.forEach((order, i) => {
+      for(i=0;i<orders.length;i++){
+        order=order[i];
         if(order.sender = req.session.id) {
           User.findById(order.reciever)
             .then(recepient => {
@@ -187,7 +188,8 @@ router.route('/lastOrder').get((req, res)=> {
 
           break;
         }
-      });
+      }
+
     })
 })
 
