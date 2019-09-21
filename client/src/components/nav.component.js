@@ -6,11 +6,13 @@ import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import axios from "axios";
 import '../home.css';
+import cookie from 'react-cookies'
 import { Link } from 'react-router-dom';
 import path from 'path';
 import Book from '../img/icons8_handshake_52px.png';
 
 export default class Nav extends Component{
+    
     constructor(props){
         super(props);
         this.componentDidMount=this.componentDidMount.bind(this);
@@ -20,9 +22,9 @@ export default class Nav extends Component{
         }
     };
     componentDidMount(){
-        var uri="http://localhost:5000/bankBalance";
+        var uri="http://localhost:5000/bankBalance/";
         console.log(uri);
-        axios.get(uri,)
+        axios.get(uri+cookie.load('user_id'))
         .then(res => {
             console.log(res);
             this.setState({

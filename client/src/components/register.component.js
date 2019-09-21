@@ -93,7 +93,7 @@ export default class Register extends Component{
             <Form onSubmit={this.onFormSubmit}>
                 <h1>Register</h1>
                 <Row>
-                <Form.Group  className="name" controlId="f_Name" width="25%">
+                <Form.Group  className="name" controlId="f_Name">
                     <Form.Control type="text" placeholder="First Name" onChange={this.onChangeFname}/>
                 </Form.Group>
                 <Form.Group className="name"controlId="l_Name">

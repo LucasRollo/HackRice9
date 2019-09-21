@@ -5,6 +5,9 @@
     background: none;
     border: none;
 }
+.container{
+    height: calc(100vh - 50px);
+}
 img{
     height: 30px;
 }
