@@ -1,6 +1,12 @@
+//jshint esversion:6
 const mongoose = require('mongoose');
+const session = require('express-session');
+const passport = require("passport");
+const passportLocalMongoose = require("passport-local-mongoose");
 
 const Schema = mongoose.Schema;
+
+
 
 const locationSchema = new Schema({
   long: { type: Number, required: false },
@@ -25,6 +31,23 @@ const userSchema = new Schema({
   timestamps: true,
 });
 
+//place right below user schema
+userSchema.plugin(passportLocalMongoose);
+
 const User = mongoose.model("User", userSchema);
+
+//place right below model
+passport.use(User.createStrategy());
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
 
 module.exports = User;
