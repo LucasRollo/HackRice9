@@ -66,10 +66,10 @@ router.route("/login").post((req, res) => {
 //location services
 router.route("/nearbyTeller/:money").get((req, res) => {
   User.findOne({'_id': req.session.id}, 'location', (err, user) => {
-    if(err) res.status(400).json('Error: ' + err;
+    if(err) res.status(400).json('Error: ' + err);
 
     User.find({'teller': true}, 'f_name l_name rate location cashBalance', (err, availableTellers)=> {
-      if(err) res.status(400).json('Error: ' + err;
+      if(err) res.status(400).json('Error: ' + err);
 
       availableTellers = availableTellers.filter(teller => {
         return teller.cashBalance >= req.params.money
