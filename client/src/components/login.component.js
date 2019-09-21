@@ -3,6 +3,8 @@ import React, {Component} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import axios from "axios";
+import path from 'path';
 import { Link } from 'react-router-dom';
 
 export default class Login extends Component{
@@ -35,8 +37,13 @@ export default class Login extends Component{
         const login={
             username:this.state.username,
             password:this.state.password
-        }
+        };
         console.log(login);
+        const uri="http://localhost:5000/login"
+        console.log(uri);
+        axios.post(uri,login)
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
     }
     render(){
         return(

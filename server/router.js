@@ -1,5 +1,5 @@
 //jshint esversion:6
-
+const passport = require("passport");
 const router = require('express').Router();
 let User = require("./models/users.model");
 
@@ -16,25 +16,22 @@ router.route('/').get((req,res) => {
 
 router.route("/register").post((req, res) => {
   //only adds username and password to new User record (encrypted so we have to keep it like this for now)
-  console.log(req);
-  User.register({username: req.body.username}, req.body.password, function(err, user){
+  console.log(req.body);
+  User.register({username: req.body.username, f_name: req.body.f_name, l_name: req.body.l_name, phone:req.body.phone,teller:false}, req.body.password, function(err, user){
     if (err) {
       console.log(err);
       res.redirect("/register");
     } else {
       passport.authenticate("local")(req, res, function(){
-
-        // User.findOneAndUpdate({ "_id": req.user.id }, { "$set": { "f_name": name, "l_name": lname,"genre": genre, "author": author, "similar": similar}}).exec(function(err, book){
-        //   if(err) {
-        //     console.log(err);
-        //     res.status(500).send(err);
-        //   } else {
-        //     res.status(200).send(book);
-        //   }
-        // });
-
-        //!Append Phone, Fname, and Lname to user record!
-        res.redirect("/");
+        console.log(`userID:${req.user._id}`);
+        User.findOneAndUpdate({ "_id": req.user._id }, { "$set": { cashBalance:12345}}).exec(function(err, user){
+          if(err) {
+            console.log(err);
+            res.status(500).send(err);
+          } else {
+            res.status(200).send(user);
+          }
+        });
       });
     }
   });
@@ -55,10 +52,12 @@ router.route("/login").post((req, res) => {
       console.log(err);
     } else {
       passport.authenticate("local")(req, res, function(){
-        res.redirect("/");
+        res.json({"status":"logged in succesfully"});
       });
+      res.json({"status":"logged in succesfully"});
     }
   });
+  
 });
 
 
