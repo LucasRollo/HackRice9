@@ -20,6 +20,8 @@ const userSchema = new Schema({
   username: { type: String, required: true, unique: true, minLength: 7 },
   phone: { type: String, required: true },
   teller: { type: Boolean, required: true },
+  cashBalance: { type: Number, required: false },
+  rate: { type: Number, required: false },
   rating: { type: Number, required: false },
   faves: { type: Array, required: false },
   sent_hist: { type: Array, required: false },
