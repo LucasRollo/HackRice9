@@ -23,10 +23,7 @@ const userSchema = new Schema({
   cashBalance: { type: Number, required: false },
   rate: { type: Number, required: false },
   rating: { type: Number, required: false },
-  faves: { type: Array, required: false },
-  sent_hist: { type: Array, required: false },
-  recieved_hist: { type: Array, required: false },
-  profit: { type: Number, required: false },
+  recentOrder: { type: String, required: false },
   customer_id: { type: String, required: false },
   location : [locationSchema]
 }, {
