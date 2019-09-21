@@ -22,8 +22,6 @@ const userSchema = new Schema({
   teller: { type: Boolean, required: true },
   cashBalance: { type: Number, required: false },
   rate: { type: Number, required: false },
-  rating: { type: Number, required: false },
-  recentOrder: { type: String, required: false },
   customer_id: { type: String, required: false },
   location : [locationSchema]
 }, {
