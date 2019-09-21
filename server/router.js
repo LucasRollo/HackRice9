@@ -2,6 +2,7 @@
 const passport = require("passport");
 const router = require('express').Router();
 const axios = require('axios');
+const request = require("request");
 let User = require("./models/users.model");
 let Order = require("./models/orders.model")
 
@@ -25,7 +26,41 @@ router.route("/register").post((req, res) => {
       res.redirect("/register");
     } else {
       passport.authenticate("local")(req, res, function(){
-        console.log(`userID:${req.user._id}`);
+        //console.log(`userID:${req.user._id}`);
+
+        //Axios CapitalOne API Call
+        let url = "http://api.reimaginebanking.com/customers?key=" + process.env.NESSY_DEV_KEY;
+
+        let formData = {
+          first_name: req.user.f_name,
+          last_name: req.user.l_name,
+          address: {
+            street_number: 1600,
+            street_name: Havedock,
+            city: Spring,
+            state: Tx,
+            zip: 77386
+          }
+        };
+
+        const form = JSON.stringify(formData)
+
+        //Post request
+        request.post(
+          {
+            url: url,
+            form: form
+          },
+          function (err, httpResponse, body) {
+            console.log(err, body);
+          }
+        );
+
+
+
+
+
+
         User.findOneAndUpdate({ "_id": req.user._id }, { "$set": { cashBalance:12345}}).exec(function(err, user){
           if(err) {
             console.log(err);
