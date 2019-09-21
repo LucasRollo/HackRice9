@@ -55,6 +55,7 @@ export default class Login extends Component{
     }
     render(){
         return(
+            <div class="container">
             <Form onSubmit={this.onFormSubmit}>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Control type="email" placeholder="Enter email" onChange={this.onChangeUsername}/>
@@ -73,6 +74,7 @@ export default class Login extends Component{
                 <Link to="/register">Dont have an account. Create One</Link>
                 <h6 id="alert" style={{display: 'none',color:'red'}}>Incorrect Username and password</h6>
             </Form>
+            </div>
         )
     }
 }

@@ -82,12 +82,14 @@ export default class Register extends Component{
             .post(uri,newUser)
             .then((res) => {
                 console.log(res);
+                window.location("/");
             })
             .catch(err => console.log(err))
 
     }
     render(){
         return(
+            <div class="container">
             <Form onSubmit={this.onFormSubmit}>
                 <h1>Register</h1>
                 <Row>
@@ -116,6 +118,7 @@ export default class Register extends Component{
                 </Button>
                 <Link to="/login">Already Have an account? login</Link>
             </Form>
+            </div>
         );
     }
     
