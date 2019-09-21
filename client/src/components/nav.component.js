@@ -23,7 +23,6 @@ export default class Nav extends Component{
         }
     };
     componentDidMount(){
-<<<<<<< HEAD
         // var uri="http://localhost:5000/bankBalance/";
         // console.log(uri);
         // axios.get(uri+cookie.load('user_id'))
@@ -36,18 +35,6 @@ export default class Nav extends Component{
         // .catch(err =>{
         //     console.log(err)
         // })
-=======
-        var uri="localhost:5000/bankBalance";
-        axios.get(uri)
-        .then(res => {
-            this.setState({
-                bankBalance:res.data.bankBalance,
-            });
-        })
-        .catch(err =>{
-            console.log(err)
-        })
->>>>>>> e578424d039029f5267584d87232dc7718afa18f
     }
 
     render(){
