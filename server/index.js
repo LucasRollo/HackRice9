@@ -38,6 +38,8 @@ connection.once('open', () => {
 const router = require('./router')
 app.use("/", router);
 
+
+
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
 });
