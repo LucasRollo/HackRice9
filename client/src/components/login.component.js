@@ -58,15 +58,13 @@ export default class Login extends Component{
         return(
             <div class="container">
             <Form onSubmit={this.onFormSubmit}>
+            <h1>Login</h1>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Control type="email" placeholder="Enter email" onChange={this.onChangeUsername}/>
                 </Form.Group>
 
                 <Form.Group controlId="formBasicPassword">
                     <Form.Control type="password" placeholder="Password" onChange={this.onChangePassword}/>
-                </Form.Group>
-                <Form.Group controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Check me out" />
                 </Form.Group>
                 <Button variant="success" type="submit">
                     Submit

@@ -8,6 +8,7 @@ import axios from "axios";
 import Nav from "./nav.component";
 import '../home.css';
 import { Link } from 'react-router-dom';
+import Money from '../img/icons8_money_transfer_96px.png';
 import path from 'path';
 
 export default class Home extends Component{
@@ -28,23 +29,20 @@ export default class Home extends Component{
         this.setState({withdraw: e.target.value})
         }
     }
-    isNumberKey(evt){
-        var charCode = (evt.which) ? evt.which : evt.keyCode
-        if(charCode>31 && (charCode<48||charCode>57))
-            return false;
-        return true;
-    }
     render(){
         return(
             <>
             <Nav/>
                 <div className="container">
-                    <Form>
-                    <Form.Group controlId="">
-                        <input type="text" pattern="[0-9]" placeholder="Withdraw amount" onkeypress="return isNumberKey(event)" onChange={this.onChangeWithdraw}/>
+                
+                    <Form className="form-container">
+                    <Form.Group controlId="" className="withdraw-fields">
+                    <h1 style={{textAlign:"center"}}> Withdraw</h1>
+                        <Form.Control type="text" pattern="[0-9]" placeholder="Withdraw amount" style={{textAlign:"center"}} onChange={this.onChangeWithdraw} value={this.state.withdraw}/>
                     </Form.Group>
+                    <button style={{margin:"auto", height: "70px"}} className="button money-button"><img src={Money}></img></button>
                     </Form>
-                 Hi
+
                 </div>
             </>
         )

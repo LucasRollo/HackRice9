@@ -31,7 +31,7 @@ router.route("/register").post((req, res) => {
             console.log(err);
             res.status(500).send(err);
           } else {
-            res.status(200).send(user);
+            res.json({user: user,id: req.user_id});
           }
         });
       });

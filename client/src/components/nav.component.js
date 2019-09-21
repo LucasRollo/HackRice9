@@ -9,7 +9,8 @@ import '../home.css';
 import cookie from 'react-cookies'
 import { Link } from 'react-router-dom';
 import path from 'path';
-import Book from '../img/icons8_handshake_52px.png';
+import Book from '../img/icons8_book_52px.png';
+import Hands from '../img/icons8_handshake_52px.png';
 
 export default class Nav extends Component{
     
@@ -41,7 +42,7 @@ export default class Nav extends Component{
             <nav className="navbar navbar-light bg-light">
                 <button className="button"><img src={Book}></img></button>
                 <h3>{this.state.bankBalance}</h3>
-                <button className="button"><img src={Book}></img></button>
+                <button className="button"><img src={Hands}></img></button>
             </nav>
         )
     }
