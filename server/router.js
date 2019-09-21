@@ -190,4 +190,15 @@ router.route('/lastOrder').get((req, res)=> {
     })
 })
 
+router.route('/bankBalance').get((req,res) => {
+  User.findById(req.session.id)
+    .then(user => {
+      axios.get(`http://api.reimaginebanking.com/customers/${user.customer_id}/accounts?key=${process.env.NESSY_DEV_KEY}`)
+        .then(response => {
+          res.json(response[0].balance)
+        })
+        .catch(err => res.json(err))
+    })
+})
+
 module.exports = router;
