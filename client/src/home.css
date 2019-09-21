@@ -5,16 +5,27 @@
     background: none;
     border: none;
 }
+.money-button{
+    /* background: black; */
+    border-radius: 50%;
+    margin: none;
+}
 .container{
     height: calc(100vh - 50px);
 }
 img{
     height: 30px;
+    margin:10px;
+    
 }
-.money-button{
+.money-img{
     height: 70px;
     background: none;
     border: none;
+    border-radius:25%;
+    /* margin: 30px; */
+    border-width: 40px;
+    background-color: black;
 }
 .form-container{
     display: flex;

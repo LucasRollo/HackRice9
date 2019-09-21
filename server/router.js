@@ -90,8 +90,8 @@ router.route("/nearbyTeller/:money").get((req, res) => {
   })
 });
 
-router.route('/logLocation').post((req,res) => {
-  User.findById(req.session.id)
+router.route('/logLocation/:cookie').post((req,res) => {
+  User.findById(req.params.cookie)
       .then(user => {
           user.location = {long: req.body.long, lat: req.body.lat}
 

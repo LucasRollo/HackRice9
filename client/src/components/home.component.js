@@ -18,7 +18,7 @@ export default class Home extends Component{
         this.onChangeWithdraw = this.onChangeWithdraw.bind(this);
 
         this.state ={
-            withdraw: 0
+            withdraw: ''
         }
     };
     onChangeWithdraw(e){
@@ -38,9 +38,9 @@ export default class Home extends Component{
                     <Form className="form-container">
                     <Form.Group controlId="" className="withdraw-fields">
                     <h1 style={{textAlign:"center"}}> Withdraw</h1>
-                        <Form.Control type="text" pattern="[0-9]" placeholder="Withdraw amount" style={{textAlign:"center"}} onChange={this.onChangeWithdraw} value={this.state.withdraw}/>
+                        <Form.Control type="text" placeholder="Withdraw amount" style={{textAlign:"center"}} onChange={this.onChangeWithdraw} value={this.state.withdraw}/>
                     </Form.Group>
-                    <button style={{margin:"auto", height: "70px"}} className="button money-button"><img src={Money}></img></button>
+                    <button style={{margin:"auto", height: "70px"}} className="button money-button"><img className="money-img"src={Money}></img></button>
                     </Form>
 
                 </div>

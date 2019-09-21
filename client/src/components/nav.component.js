@@ -18,8 +18,7 @@ export default class Nav extends Component{
         super(props);
         this.componentDidMount=this.componentDidMount.bind(this);
         this.state={
-            bankBalance:0,
-            withdrawAmmnt:0,
+            bankBalance:0
         }
     };
     componentDidMount(){
@@ -36,13 +35,16 @@ export default class Nav extends Component{
             console.log(err)
         })
     }
+    tellerScreen(){
+        window.location=("/tellerSignup")
+    }
     
     render(){
         return(
             <nav className="navbar navbar-light bg-light">
                 <button className="button"><img src={Book}></img></button>
                 <h3>{this.state.bankBalance}</h3>
-                <button className="button"><img src={Hands}></img></button>
+                <button onClick="tellerScreen" className="button"><img src={Hands}></img></button>
             </nav>
         )
     }
