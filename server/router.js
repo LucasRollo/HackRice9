@@ -65,10 +65,10 @@ router.route("/login").post((req, res) => {
 //location services
 router.route("/nearbyTeller/:money").get((req, res) => {
   User.findOne({'_id': req.session.id}, 'location', (err, user) => {
-    if(err) res.status(400).json('Error: ' + err;
+    if(err) res.status(400).json('Error: ' + err);
 
     User.find({'teller': true}, 'f_name l_name rate location cashBalance', (err, availableTellers)=> {
-      if(err) res.status(400).json('Error: ' + err;
+      if(err) res.status(400).json('Error: ' + err);
 
       availableTellers = availableTellers.filter(teller => {
         return teller.cashBalance >= req.params.money
@@ -155,5 +155,39 @@ router.route('/addOrder').post((req, res) => {
     .then(() => res.json("Order saved"))
     .catch(err => res.status(400).json("Error: " + err))
 });
+
+router.route('/lastOrder').get((req, res)=> {
+  Order.find()
+    .then(orders => {
+      lastOrder = []
+
+      orders.forEach((order, i) => {
+        if(order.sender = req.session.id) {
+          User.findById(order.reciever)
+            .then(recepient => {
+              lastOrder[0] = recepient.f_name + " " + recepient.l_name;
+              lastOrder[1] = recepient.phone;
+              lastOrder[2] = order.amount;
+              lastOrder[3] = "Teller"
+              res.json(lastOrder)
+            })
+
+          break;
+        }
+        else if(order.reciever = req.session.id) {
+          User.findById(order.sender)
+            .then(sender => {
+              lastOrder[0] = sender.f_name + " " + sender.l_name;
+              lastOrder[1] = sender.phone;
+              lastOrder[2] = order.amount;
+              lastOrder[3] = "Recipient"
+              res.json(lastOrder)
+            })
+
+          break;
+        }
+      });
+    })
+})
 
 module.exports = router;
