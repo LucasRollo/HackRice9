@@ -4,7 +4,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
+import axios from "axios";
 import { Link } from 'react-router-dom';
+import path from 'path';
 import "./register.css"
 export default class Register extends Component{
     constructor(props){
@@ -15,20 +17,26 @@ export default class Register extends Component{
         this.onChangeUsername = this.onChangeUsername.bind(this);
         this.onChangePassword1 = this.onChangePassword1.bind(this);
         this.onChangePassword2 = this.onChangePassword2.bind(this);
+        this.onChangePhone = this.onChangePhone.bind(this);
         this.onFormSubmit = this.onFormSubmit.bind(this);
 
         this.state ={
             fname:'',
             lname:'',
             username: '',
-            password: ''
+            password: '',
+            phone: '',
         }
     }
     onChangeFname(e){
-
+        this.setState({
+            fname:e.target.value
+        });
     }
     onChangeLname(e){
-
+        this.setState({
+            lname:e.target.value
+        });
     }
     onChangeUsername(e) {
         this.setState({
@@ -39,7 +47,7 @@ export default class Register extends Component{
     onChangePassword1(e) {
         this.setState({
             password:e.target.value
-        })
+        });
     }
     onChangePassword2(e) {
         console.log('changing password 2');
@@ -52,16 +60,29 @@ export default class Register extends Component{
             document.getElementById('submit').setAttribute("disabled","");
         }
     }
+    onChangePhone(e){
+        this.setState({
+            phone:e.target.value
+        });
+    }
     onFormSubmit(e){
         e.preventDefault();
 
         const newUser={
-            fname:this.state.fname,
-            lname:this.state.lname,
+            f_name:this.state.fname,
+            l_name:this.state.lname,
             username:this.state.username,
-            password:this.state.password
+            password:this.state.password,
+            phone:this.state.phone
         }
         console.log(newUser);
+        const uri="http://localhost:5000/register";
+        console.log(uri);
+        axios
+            .post(uri,newUser)
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+
     }
     render(){
         return(
@@ -78,12 +99,16 @@ export default class Register extends Component{
                 <Form.Group controlId="formBasicEmail">
                     <Form.Control type="email" placeholder="Enter email" onChange={this.onChangeUsername}/>
                 </Form.Group>
+                <Form.Group controlId="formBasicPhone">
+                    <Form.Control type="text" placeholder="Enter Phone" onChange={this.onChangePhone}/>
+                </Form.Group>
                 <Form.Group controlId="formBasicPassword1">
                     <Form.Control type="password" placeholder="Enter password" onChange={this.onChangePassword1}/>
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword2">
                     <Form.Control type="password" placeholder="Re-enter password" onChange={this.onChangePassword2}/>
                 </Form.Group>
+                
                 <Button id="submit"variant="outline-success" type="submit" disabled>
                     Submit
                 </Button>
