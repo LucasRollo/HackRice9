@@ -24,14 +24,14 @@ export default class Nav extends Component{
         axios.get(uri)
         .then(res => {
             this.setState({
-                bankBalance=res.data.bankBalance,
+                bankBalance:res.data.bankBalance,
             });
         })
         .catch(err =>{
             console.log(err)
         })
     }
-    
+
     render(){
         return(
             <nav class="navbar navbar-light bg-light">
