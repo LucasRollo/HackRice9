@@ -92,7 +92,10 @@ export default class Register extends Component{
         return(
             <div class="container spaceContainer">
             <Form onSubmit={this.onFormSubmit}>
+                <br></br>
                 <h1>Register</h1>
+                <br></br>
+                <br></br>
                 <Row>
                 <Form.Group  className="name" controlId="f_Name">
                     <Form.Control type="text" placeholder="First Name" onChange={this.onChangeFname}/>
@@ -114,11 +117,14 @@ export default class Register extends Component{
                     <Form.Control type="password" placeholder="Re-enter password" onChange={this.onChangePassword2}/>
                 </Form.Group>
 
-                <Button id="submit"variant="success" type="submit" disabled>
+                <br></br>
+                <h6 style={{textAlign: "center"}}><Button id="submit"variant="success" type="submit" disabled>
                     Submit
                 </Button>
                 <br></br>
                 <Link to="/login">Already Have an account? login</Link>
+                </h6>
+
             </Form>
             </div>
         );
