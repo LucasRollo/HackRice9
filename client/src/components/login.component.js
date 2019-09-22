@@ -56,7 +56,7 @@ export default class Login extends Component{
     }
     render(){
         return(
-            <div class="container">
+            <div className="container">
             <Form onSubmit={this.onFormSubmit}>
             <h1>Login</h1>
                 <Form.Group controlId="formBasicEmail">

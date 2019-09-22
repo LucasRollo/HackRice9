@@ -37,7 +37,7 @@ export default class TellerSignup extends Component{
             on:0
         }
     }
-    
+
     onesUpdate(e){
         const re = /^[0-9\b]+$/;
         // if value is not blank, then test the regex
@@ -92,26 +92,53 @@ export default class TellerSignup extends Component{
         document.getElementById(id).focus();
         document.getElementById(id).select();
     }
+    logLocation(){
+      axios.post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAWJfBTsAd8TQ83LdjHKj5XzgiCm92n2Ec")
+        .then(res => {
+          axios.post("http://localhost:5000/logLocation/"+cookie.load('user_id'), {long: res.data.location.lng, lat: res.data.location.lat})
+            .catch(err => console.log(err))
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    }
     liveButtonClicked(e){
         const button=document.getElementsByClassName('on-button')[0]
         if(this.state.on===0){
 
             this.setState({cashBalance: 1*this.state.ones+2*this.state.twos+5*this.state.fives+10*this.state.tens+20*this.state.twenties+100*this.state.hundreds},()=>{
-                console.log('cashMoney'+this.state.cashBalance);
             if(this.state.cashBalance>=20){
+                this.logLocation();
+
                 this.setState({on:1});
                 button.innerHTML='Go Offline';
-                button.style.backgroundColor="red"; 
+                button.style.backgroundColor="red";
+
+                const cash = {
+                  money: this.state.cashBalance
+                }
+                const rate = {
+                  rate: this.state.rate
+                }
+
+                axios.post("http://localhost:5000/updateCashBalance/" + cookie.load('user_id'), cash)
+                  .then(resp => {
+                      axios.post("http://localhost:5000/updateRate/" + cookie.load('user_id'), rate)
+                        .then(resp => {
+                            axios.post("http://localhost:5000/updateTeller/" + cookie.load('user_id'))
+                        })
+                  })
             }
             });
-            
 
-            
+
+
         } else {
             this.setState({on:0});
             button.innerHTML='Go Live';
             button.style.backgroundColor="green";
 
+            axios.post("http://localhost:5000/updateTeller/" + cookie.load('user_id'))
         }
     }
     render(){
@@ -122,7 +149,7 @@ export default class TellerSignup extends Component{
                 <h1>Your Balance</h1>
             <Row>
                 <h3>Ones:</h3>
-        
+
                 <Form.Control onChange={this.onesUpdate} onClick={this.SelectAll}className="bill-input" type="text" name='ones' id="txtfld" disabled={this.state.on} value={this.state.ones}/>
             </Row>
             <Row>
