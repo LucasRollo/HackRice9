@@ -152,7 +152,7 @@ export default class TellerSignup extends Component{
             <h1>Your Rules</h1>
             <h6>How many cents do you want to make per dollar you dispense <span>(we reccomend 1-3)</span></h6>
             <Row>
-                <h3>Interest Rate:</h3>
+                <h3>Commission:</h3>
                 <Form.Control onChange={this.rateUpdate} onClick={this.SelectAll} id="rate-input"className="rate-input"type="text" name='rate' disabled={this.state.on} value={this.state.rate}/>
             </Row>
             <h1><Button onClick={this.liveButtonClicked} className="on-button on" id="off">Go Live</Button></h1>
