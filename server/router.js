@@ -123,18 +123,24 @@ router.route("/nearbyTeller/:money/:user_id").get((req, res) => {
         return teller.cashBalance >= req.params.money
       })
 
+      coords = user.location[0].lat + "," + user.location[0].long
+
       availableTellers = availableTellers.map(teller => {
         dist = 2 * 3961 * Math.asin(
           Math.sqrt(
             Math.pow(Math.sin((teller.location[0].lat - user.location[0].lat)/2),2) + Math.cos(user.location[0].lat)*Math.cos(teller.location[0].lat)*Math.pow(Math.sin((teller.location[0].long - user.location[0].long)/2),2)
           )
         );
+
+        coords += "|"+teller.location[0].lat+","+teller.location[0].long
         return [teller.f_name, teller.l_name, teller.rate, dist]
       });
 
       availableTellers.sort((a,b) => {return a.dist - b.dist})
 
-      return res.json(availableTellers);
+
+
+      return res.json({'tellers': availableTellers, img: "https://maps.googleapis.com/maps/api/staticmap?size=400x400&markers=" + coords + "&key=AIzaSyAWJfBTsAd8TQ83LdjHKj5XzgiCm92n2Ec"});
     })
   })
 });
