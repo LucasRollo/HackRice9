@@ -10,7 +10,8 @@ import Nav from "./nav.component";
 import '../home.css';
 import { Link } from 'react-router-dom';
 import Money from '../img/icons8_money_transfer_96px.png';
-import Backarrow from '../img/icons8_left_50px.png';
+import Backarrow from '../img/icons8_clear_symbol_50px.png';
+import Delete from '../img/icons8_delete_sign_50px.png';
 import TellerList from './tellers-list.component';
 import path from 'path';
 
@@ -137,7 +138,7 @@ export default class Home extends Component{
                         <div className="number-row">
                             <div onClick={this.backArrowOnClick}className="num-btn"><img id="backarrow" src={Backarrow} /></div>
                             <div onClick={this.zeroOnClick}className="num-btn"><h1>0</h1></div>
-                            <div onClick={this.dotOnClick}className="num-btn"><h1>.</h1></div>
+                            <div onClick={this.dotOnClick}className="num-btn"><img src={Delete}/></div>
                         </div>
                     </div>
                     <button style={{margin:"auto", height: "70px"}} onClick={this.logLocation} className="button money-button"><img className="money-img"src={Money}></img></button>
