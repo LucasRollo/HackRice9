@@ -1,0 +1,28 @@
+.bill-input{
+    width: 30vw;
+    float: right;
+}
+.container{
+    display: block;
+}
+h1{
+    text-align: center;
+}
+h6{
+    font-size: .8em;
+    margin-bottom: 0;
+}
+h5{
+    font-size: .8em;
+    text-align: center;
+}
+span{
+    white-space: nowrap;
+    font-size: 1.1em;
+}
+#on{
+    background: red;
+}
+#off{
+    background: green;
+}

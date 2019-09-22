@@ -9,32 +9,31 @@ import '../home.css';
 import cookie from 'react-cookies'
 import { Link } from 'react-router-dom';
 import path from 'path';
-import Book from '../img/icons8_book_52px.png';
+import Back from '../img/icons8_back_52px.png';
 import Hands from '../img/icons8_handshake_52px.png';
 
-export default class Nav extends Component{
+export default class NavTeller extends Component{
 
     constructor(props){
         super(props);
         // this.componentDidMount=this.componentDidMount.bind(this);
+        this.backOnClick=this.backOnClick.bind(this);
         this.state={
             // bankBalance:0,
             // withdrawAmmnt:0,
         }
     };
-    handsOnClick(){
-        window.location=('/tellerSignup');
-    };
-    bookOnClick(){
-        console.log('book was clicked');
-    };
+
+    backOnClick(){
+        window.location=('/');
+    }
 
     render(){
         return(
             <nav className="navbar navbar-light bg-light">
-                <button id="book" onClick={this.bookOnClick} className="button"><img src={Book}></img></button>
-                <h3>MyCash</h3>
-                <button id="hand" onClick={this.handsOnClick} className="button"><img src={Hands}></img></button>
+                <button onClick={this.backOnClick} id="back" className="button"><img src={Back}></img></button>
+                <h3></h3>
+                <h3></h3>
             </nav>
         )
     }
