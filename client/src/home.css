@@ -6,7 +6,7 @@ body{
     overflow: hidden;
 }
 #root{
-    background-image: url("./img/pattern-1.svg");
+    /* background-image: url("./img/pattern-1.svg"); */
     background-repeat: repeat;
     background-attachment: fixed;
 }

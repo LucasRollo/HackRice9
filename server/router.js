@@ -100,7 +100,7 @@ router.route("/login").post((req, res) => {
       res.json({"status":"Wrong"});
     } else {
       passport.authenticate("local")(req, res, function(){
-        res.json({"status":"Success"});
+        res.json({"status":"Success", "user_id": req.user._id});
       });
 
     }
@@ -109,12 +109,15 @@ router.route("/login").post((req, res) => {
 });
 
 //location services
-router.route("/nearbyTeller/:money").get((req, res) => {
-  User.findOne({'_id': req.session.id}, 'location', (err, user) => {
+router.route("/nearbyTeller/:money/:user_id").get((req, res) => {
+  User.findOne({'_id': req.params.user_id}, 'location', (err, user) => {
     if(err) res.status(400).json('Error: ' + err);
+    console.log(user);
 
     User.find({'teller': true}, 'f_name l_name rate location cashBalance', (err, availableTellers)=> {
       if(err) res.status(400).json('Error: ' + err);
+
+      console.log(availableTellers);
 
       availableTellers = availableTellers.filter(teller => {
         return teller.cashBalance >= req.params.money
@@ -123,19 +126,21 @@ router.route("/nearbyTeller/:money").get((req, res) => {
       availableTellers = availableTellers.map(teller => {
         dist = 2 * 3961 * Math.asin(
           Math.sqrt(
-            Math.pow(Math.sin((teller.location.lat - user.location.lat)/2),2) + Math.cos(user.location.lat)*Math.cos(teller.location.lat)*Math.pow(Math.sin((teller.location.long - user.location.long)/2),2)
+            Math.pow(Math.sin((teller.location[0].lat - user.location[0].lat)/2),2) + Math.cos(user.location[0].lat)*Math.cos(teller.location[0].lat)*Math.pow(Math.sin((teller.location[0].long - user.location[0].long)/2),2)
           )
         );
         return [teller.f_name, teller.l_name, teller.rate, dist]
       });
+
+      availableTellers.sort((a,b) => {return a.dist - b.dist})
 
       return res.json(availableTellers);
     })
   })
 });
 
-router.route('/logLocation').post((req,res) => {
-  User.findById(req.session.id)
+router.route('/logLocation/:user_id').post((req,res) => {
+  User.findById(req.params.user_id)
       .then(user => {
           user.location = {long: req.body.long, lat: req.body.lat}
 
@@ -148,8 +153,8 @@ router.route('/logLocation').post((req,res) => {
 
 //update teller fields
 
-router.route('/updateCashBalance').post((req, res) => {
-  User.findById(req.session.id)
+router.route('/updateCashBalance/:user_id').post((req, res) => {
+  User.findById(req.params.user_id)
     .then(user => {
         user.cashBalance = req.body.money
 
@@ -160,10 +165,10 @@ router.route('/updateCashBalance').post((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err))
 });
 
-router.route('/updateRate').post((req, res) => {
-  User.findById(req.session.id)
+router.route('/updateRate/:user_id').post((req, res) => {
+  User.findById(req.params.user_id)
     .then(user => {
-        user.rate = req.body.money
+        user.rate = req.body.rate
 
         user.save()
           .then(()=>res.json('User updated!'))
@@ -172,8 +177,8 @@ router.route('/updateRate').post((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err))
 });
 
-router.route('/updateTeller').post((req, res) => {
-  User.findById(req.session.id)
+router.route('/updateTeller/:user_id').post((req, res) => {
+  User.findById(req.params.user_id)
     .then(user => {
         user.teller = !user.teller
 
