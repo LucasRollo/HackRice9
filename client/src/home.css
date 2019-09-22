@@ -72,3 +72,6 @@ img{
 #backarrow{
     filter: brightness(0);
 }
+.home-back-btn:hover{
+    cursor: pointer;
+}
