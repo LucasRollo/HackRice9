@@ -9,6 +9,8 @@ h5, h4{
 }
 .teller-wrapper{
     height: calc((100vh - 50px)/2);
+    max-height: calc((100vh - 50px)/2);
+    overflow-y: scroll;
 }
 .teller-container{
     /* border-color: rgb(0, 0, 0);
@@ -17,12 +19,20 @@ h5, h4{
     padding-left: 10px;
     padding-right: 10px;
 }
-.name-sec{
-    /* display: block; */
-    /* float: left; */
+.teller-container:hover{
+    cursor: pointer;
+    background-color: #696969;
 }
-span{
-    /* font-size: .1em; */
+.map{
+    height:calc((100vh - 50px)/2);
+    max-height:calc((100vh - 50px)/2);
+    overflow:hidden;
+}
+.map-img{
+    width: 100%;
+    height: auto;
+    padding:0;
+    margin:0;
 }
 sub{
     margin-left: 10px;
