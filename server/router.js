@@ -25,7 +25,7 @@ router.route("/register").post((req, res) => {
   User.register({username: req.body.username, f_name: req.body.f_name, l_name: req.body.l_name, phone:req.body.phone, teller:false, rate: 0}, req.body.password, function(err, user){
     if (err) {
       console.log(err);
-      res.redirect("/register");
+      res.json({"status":"error"});
     } else {
       passport.authenticate("local")(req, res, function(){
         //console.log(`userID:${req.user._id}`);
@@ -74,9 +74,9 @@ router.route("/register").post((req, res) => {
           User.findOneAndUpdate({ "_id": req.user._id }, { "$set": {cashBalance:randomNum}}).exec(function(err, user){
           if(err) {
             console.log(err);
-            res.status(500).send(err);
+            res.status(500).json(err);
           } else {
-            res.status(200).send(user);
+            res.status(200).json(user);
           }
         });
       });

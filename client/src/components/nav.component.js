@@ -22,6 +22,12 @@ export default class Nav extends Component{
             // withdrawAmmnt:0,
         }
     };
+    handsOnClick(){
+        window.location=('/tellerSignup');
+    };
+    bookOnClick(){
+        console.log('book was clicked');
+    };
     render(){
         return(
             <nav className="navbar navbar-light bg-light">

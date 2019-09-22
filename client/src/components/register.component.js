@@ -82,7 +82,7 @@ export default class Register extends Component{
             .post(uri,newUser)
             .then((res) => {
                 console.log(res);
-                document.cookie=`user_id=${res.data.user._id}`;
+                document.cookie=`user_id=${res.data._id}`;
                 window.location=("/");
             })
             .catch(err => console.log(err))
