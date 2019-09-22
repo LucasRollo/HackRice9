@@ -1,9 +1,19 @@
 .navbar{
     height: 50px;
 }
+body{
+    height: 100vh;
+    overflow: hidden;
+}
+#root{
+    background-image: url("./img/pattern-1.svg");
+    background-repeat: repeat;
+    background-attachment: fixed;
+}
 .button{
     background: none;
     border: none;
+    margin:none;
 }
 .button:focus {outline:none;} ::-moz-focus-inner {border:0;}
 .money-button{
@@ -13,11 +23,12 @@
 }
 .container{
     height: calc(100vh - 50px);
+    overflow: hidden;
+    margin-top: 10px;
 }
 img{
     height: 30px;
     margin:10px;
-    
 }
 .money-img{
     height: 70px;
@@ -31,8 +42,33 @@ img{
 .form-container{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-direction: column; 
-    height: calc(100vh - 50px);
-    margin-top: 100px;
+    height: calc(100vh - 60px);
+    overflow:hidden;
+    /* margin-top: 50px; */
+}
+.number-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.num-btn{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 20vw;
+    height: 20vw;
+    max-height: 10vh;
+    max-width: 10vh;
+    background: #ffffffad;
+}
+.num-btn:hover{
+    background: #066e1cd8;
+}
+.withdraw-fields{
+    background: #ffffffad;
+}
+#backarrow{
+    filter: brightness(0);
 }

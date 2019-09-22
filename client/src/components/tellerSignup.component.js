@@ -97,7 +97,7 @@ export default class TellerSignup extends Component{
         if(this.state.on===0){
 
             this.setState({cashBalance: 1*this.state.ones+2*this.state.twos+5*this.state.fives+10*this.state.tens+20*this.state.twenties+100*this.state.hundreds},()=>{
-                console.log('cashMoney'+this.state.cashBalance);
+                // console.log('cashMoney'+this.state.cashBalance);
             if(this.state.cashBalance>=20){
                 this.setState({on:1});
 
