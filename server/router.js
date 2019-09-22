@@ -20,6 +20,8 @@ router.route('/').get((req,res) => {
 router.route("/register").post((req, res) => {
   //only adds username and password to new User record (encrypted so we have to keep it like this for now)
   console.log(req.body);
+  first = req.body.f_name;
+  last = req.body.l_name;
   User.register({username: req.body.username, f_name: req.body.f_name, l_name: req.body.l_name, phone:req.body.phone,teller:false}, req.body.password, function(err, user){
     if (err) {
       console.log(err);
@@ -30,43 +32,55 @@ router.route("/register").post((req, res) => {
 
         //Axios CapitalOne API Call
         let url = "http://api.reimaginebanking.com/customers?key=" + process.env.NESSY_DEV_KEY;
+        // console.log("-------------------");
+        // console.log(req.user.f_name);
+        // console.log("-------------------");
+        // console.log(req.user.l_name);
 
-        let formData = {
-          first_name: req.user.f_name,
-          last_name: req.user.l_name,
-          address: {
-            street_number: 1600,
-            street_name: Havedock,
-            city: Spring,
-            state: Tx,
-            zip: 77386
-          }
+        let address = {
+          street_number: "1600",
+          street_name: "Havelock",
+          city: "Spring",
+          state: "Tx",
+          zip: "77386"
         };
 
-        const form = JSON.stringify(formData)
 
-        //Post request
-        request.post(
-          {
-            url: url,
-            form: form
-          },
-          function (err, httpResponse, body) {
-            console.log(err, body);
-          }
-        );
+        const form = {
+          first_name: first,
+          last_name: last,
+          address: address
+        };
 
 
+        axios.post(url, form)
+          .then(resp => {
+            // console.log("---------------");
+            // console.log(resp.data.objectCreated._id);
+            // console.log("---------------");
+
+            User.findOneAndUpdate({"_id": req.user._id}, {"$set": {customer_id: resp.data.objectCreated._id}}).exec(function(err, user){
+              if(err){
+                console.log(err);
+              }else{
+                console.log("successfully made customer and added id");
+              }
+
+
+            });
 
 
 
+          })
+          .catch(err => console.log(err))
 
-        User.findOneAndUpdate({ "_id": req.user._id }, { "$set": { cashBalance:12345}}).exec(function(err, user){
+
+        User.findOneAndUpdate({ "_id": req.user._id }, { "$set": {cashBalance:12345}}).exec(function(err, user){
           if(err) {
             console.log(err);
             res.status(500).send(err);
           } else {
-            res.json({user: user,id: req.user_id});
+            res.status(200).send(user);
           }
         });
       });
@@ -90,8 +104,7 @@ router.route("/login").post((req, res) => {
       res.json({"status":"Wrong"});
     } else {
       passport.authenticate("local")(req, res, function(){
-        console.log(`login ID: ${req.user._id}`);
-        res.json({"status":"Success","user_id":req.user._id});
+        res.json({"status":"Success"});
       });
 
     }
@@ -130,13 +143,13 @@ router.route("/nearbyTeller/:money/:user_id").get((req, res) => {
   })
 });
 
-router.route('/logLocation/:user_id').post((req,res) => {
-  User.findById(req.params.user_id)
+router.route('/logLocation').post((req,res) => {
+  User.findById(req.session.id)
       .then(user => {
           user.location = {long: req.body.long, lat: req.body.lat}
 
           user.save()
-            .then(()=>res.json('User updated! Location Logged'))
+            .then(()=>res.json('User updated!'))
             .catch(err => res.status(400).json('Error: ' + err))
       })
       .catch(err => res.status(400).json('Error: ' + err))
@@ -235,16 +248,14 @@ router.route('/lastOrder').get((req, res)=> {
 })
 
 router.route('/bankBalance').get((req,res) => {
-  console.log(`id: ${req.session.username}`);
-  res.json(req.user);
-  // User.findById(req.session.id)
-  //   .then(user => {
-  //     axios.get(`http://api.reimaginebanking.com/customers/${user.customer_id}/accounts?key=${process.env.NESSY_DEV_KEY}`)
-  //       .then(response => {
-  //         res.json(response[0].balance)
-  //       })
-  //       .catch(err => res.json(err))
-  //   })
+  User.findById(req.session.id)
+    .then(user => {
+      axios.get(`http://api.reimaginebanking.com/customers/${user.customer_id}/accounts?key=${process.env.NESSY_DEV_KEY}`)
+        .then(response => {
+          res.json(response[0].balance)
+        })
+        .catch(err => res.json(err))
+    })
 })
 
 module.exports = router;
