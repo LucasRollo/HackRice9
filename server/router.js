@@ -140,7 +140,7 @@ router.route("/nearbyTeller/:money/:user_id").get((req, res) => {
 
 
 
-      return res.json({'tellers': availableTellers, img: "https://maps.googleapis.com/maps/api/staticmap?size=400x400&markers=" + coords + "&key=AIzaSyAWJfBTsAd8TQ83LdjHKj5XzgiCm92n2Ec"});
+      return res.json({'tellers': availableTellers, "img": "https://maps.googleapis.com/maps/api/staticmap?size=400x400&markers=" + coords + "&key=AIzaSyAWJfBTsAd8TQ83LdjHKj5XzgiCm92n2Ec"});
     })
   })
 });
@@ -195,9 +195,9 @@ router.route('/updateTeller/:user_id').post((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err))
 });
 
-router.route('/addOrder').post((req, res) => {
+router.route('/addOrder/:user_id').post((req, res) => {
   const sender = req.body.sender;
-  const reciever = req.session.id;
+  const reciever = req.params.user_id;
   const amount = req.body.amount;
   const rate = req.body.rate;
 
@@ -213,31 +213,31 @@ router.route('/addOrder').post((req, res) => {
     .catch(err => res.status(400).json("Error: " + err))
 });
 
-router.route('/lastOrder').get((req, res)=> {
+router.route('/lastOrder/:user_id').get((req, res)=> {
   Order.find()
     .then(orders => {
       lastOrder = []
 
       for(i=0;i<orders.length;i++){
         order=order[i];
-        if(order.sender = req.session.id) {
+        if(order.sender == req.params.user_id) {
           User.findById(order.reciever)
             .then(recepient => {
               lastOrder[0] = recepient.f_name + " " + recepient.l_name;
               lastOrder[1] = recepient.phone;
-              lastOrder[2] = order.amount;
+              lastOrder[2] = order.amount * (1 + (order.rate / 100.0));
               lastOrder[3] = "Teller"
               res.json(lastOrder)
             })
 
           break;
         }
-        else if(order.reciever = req.session.id) {
+        else if(order.reciever == req.params.user_id) {
           User.findById(order.sender)
             .then(sender => {
               lastOrder[0] = sender.f_name + " " + sender.l_name;
               lastOrder[1] = sender.phone;
-              lastOrder[2] = order.amount;
+              lastOrder[2] = order.amount * (1 + (order.rate / 100.0));
               lastOrder[3] = "Recipient"
               res.json(lastOrder)
             })
@@ -249,8 +249,8 @@ router.route('/lastOrder').get((req, res)=> {
     })
 })
 
-router.route('/bankBalance').get((req,res) => {
-  User.findById(req.session.id)
+router.route('/bankBalance/:user_id').get((req,res) => {
+  User.findById(req.params.user_id)
     .then(user => {
       axios.get(`http://api.reimaginebanking.com/customers/${user.customer_id}/accounts?key=${process.env.NESSY_DEV_KEY}`)
         .then(response => {
@@ -258,6 +258,26 @@ router.route('/bankBalance').get((req,res) => {
         })
         .catch(err => res.json(err))
     })
+})
+
+router.route('/transfer').post((req,res) => {
+  acct_reciever = 0;
+  User.find(req.body.reciever)
+    .then(user => {
+      axios.get(`http://api.reimaginebanking.com/customers/${user.customer_id}/accounts?key=${process.env.NESSY_DEV_KEY}`)
+        .then(response => {
+          acct_reciever = response[0]
+        })
+    })
+  acct_sender = 0;
+  User.find(req.body.sender)
+    .then(user => {
+      axios.get(`http://api.reimaginebanking.com/customers/${user.customer_id}/accounts?key=${process.env.NESSY_DEV_KEY}`)
+        .then(response => {
+          acct_sender = response[0]
+        })
+    })
+  axios.post(`http://api.reimaginebanking.com/accounts/${acct_reciever._id}/transfers?key=${process.env.NESSY_DEV_KEY}`, {"medium": "balance", "payee_id": acct_sender._id,  "transaction_date": "2019-09-22", "status": "pending", "description": "string"})
 })
 
 module.exports = router;
