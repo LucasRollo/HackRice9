@@ -103,11 +103,7 @@ export default class Home extends Component{
       e.preventDefault()
       axios.post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAWJfBTsAd8TQ83LdjHKj5XzgiCm92n2Ec")
         .then(res => {
-<<<<<<< HEAD
-          console.log(res.data.location);
-=======
             console.log(res);
->>>>>>> 17a90ee5a2daf4aa859032a1bce2fad7a7c94d44
           axios.post("http://localhost:5000/logLocation/"+cookie.load('user_id'), {long: res.data.location.lng, lat: res.data.location.lat})
             .then(respo => this.makeTellersList())
             .catch(err => console.log(err))

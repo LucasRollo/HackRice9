@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
 import axios from 'axios'
 import cookie from 'react-cookies';
-import Nav from './nav.component'
+import Nav from './nav.component';
+import { Link } from 'react-router-dom';
+
 
 export default class ViewOrder extends Component{
   constructor(props) {
@@ -40,6 +42,7 @@ export default class ViewOrder extends Component{
           <h3>{this.state.data[2]}</h3>
           <h3>{this.state.data[3]}</h3>
           {this.state.data[4]? (<button type="button" className="btn btn-success" disabled>Success</button>) : (<button type="button" className="btn btn-success" onClick = {this.completeOrder}>Success</button>) }
+          <Link to="/">back to home</Link>
         </div>
       </div>
     )
