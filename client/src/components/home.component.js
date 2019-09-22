@@ -91,19 +91,24 @@ export default class Home extends Component{
     dotOnClick(){
         this.setState({withdraw: ''});
     };
+    makeTellersList() {
+      
+      this.setState((prevState) => ({withdraw: prevState.withdraw, element: <TellerList money={ prevState.withdraw }/>}));
+    }
 
     logLocation(e){
       e.preventDefault()
       axios.post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAWJfBTsAd8TQ83LdjHKj5XzgiCm92n2Ec")
         .then(res => {
+          console.log(res.data.location);
           axios.post("http://localhost:5000/logLocation/"+cookie.load('user_id'), {long: res.data.location.lng, lat: res.data.location.lat})
+            .then(respo => this.makeTellersList())
             .catch(err => console.log(err))
         })
         .catch(err => {
           console.log(err);
         })
 
-      this.setState((prevState) => ({withdraw: prevState.withdraw, element: <TellerList money={ prevState.withdraw }/>}));
     }
 
     render(){

@@ -28,14 +28,14 @@ export default class TellersList extends Component{
       <div className="teller-wrapper">
         {this.state.data.map(function(teller,i){
             // teller[4]=this.props.money;
-            return <Teller f_name={teller[0]} l_name={teller[1]} commission={teller[2]} distance={teller[3]} money={m} id={i} key={i}/>;
+            return <Teller f_name={teller[0]} l_name={teller[1]} commission={teller[2]} distance={teller[3]} money={m} id={teller[4]} key={i}/>;
           })}
       </div>
       <div className="map">
         <img className="map-img"src={this.state.url}></img>
       </div>
 
-      
+
       </>
       )
   }

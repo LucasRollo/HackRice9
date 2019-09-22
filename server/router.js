@@ -110,11 +110,12 @@ router.route("/login").post((req, res) => {
 
 //location services
 router.route("/nearbyTeller/:money/:user_id").get((req, res) => {
+  console.log(req.params.user_id +" called with " + req.params.money)
   User.findOne({'_id': req.params.user_id}, 'location', (err, user) => {
     if(err) res.status(400).json('Error: ' + err);
     console.log(user);
 
-    User.find({'teller': true}, 'f_name l_name rate location cashBalance', (err, availableTellers)=> {
+    User.find({'teller': true}, '_id f_name l_name rate location cashBalance', (err, availableTellers)=> {
       if(err) res.status(400).json('Error: ' + err);
 
       console.log(availableTellers);
@@ -133,7 +134,7 @@ router.route("/nearbyTeller/:money/:user_id").get((req, res) => {
         );
 
         coords += "|"+teller.location[0].lat+","+teller.location[0].long
-        return [teller.f_name, teller.l_name, teller.rate, dist]
+        return [teller.f_name, teller.l_name, teller.rate, dist, teller._id]
       });
 
       availableTellers.sort((a,b) => {return a.dist - b.dist})
@@ -148,7 +149,7 @@ router.route("/nearbyTeller/:money/:user_id").get((req, res) => {
 router.route('/logLocation/:user_id').post((req,res) => {
   User.findById(req.params.user_id)
       .then(user => {
-          user.location = {long: req.body.long, lat: req.body.lat}
+          user.location = [{long: req.body.long, lat: req.body.lat}]
 
           user.save()
             .then(()=>res.json('User updated!'))
@@ -200,12 +201,16 @@ router.route('/addOrder/:user_id').post((req, res) => {
   const reciever = req.params.user_id;
   const amount = req.body.amount;
   const rate = req.body.rate;
+  const completeReciever = false;
+  const completeSender = false;
 
   const newOrder = new Order({
     sender,
     reciever,
     amount,
     rate,
+    completeSender,
+    completeReciever
   });
 
   newOrder.save()
@@ -213,13 +218,38 @@ router.route('/addOrder/:user_id').post((req, res) => {
     .catch(err => res.status(400).json("Error: " + err))
 });
 
+router.route('/completeOrder/:order_id/:user_id').post((req, res) => {
+  Order.findById(req.params.order_id)
+    .then(order => {
+      if(req.params.user_id == order.sender){
+        order.completeSender = true;
+      }
+      else if(req.params.user_id == order.reciever) {
+        order.completeReciever = true;
+      }
+      if(order.completeSender && order.completeReciever) {
+        const tran = {
+          sender: order.sender,
+          reciever: order.reciever
+        }
+        axios.post('http://localhost:5000/transfer', tran)
+      }
+      console.log(order);
+      order.save()
+        .then(() => res.json("Order saved"))
+        .catch(err => res.status(400).json("Error: " + err))
+    })
+    .catch(err => console.log(err))
+})
+
 router.route('/lastOrder/:user_id').get((req, res)=> {
   Order.find()
     .then(orders => {
       lastOrder = []
 
       for(i=0;i<orders.length;i++) {
-        order=order[i];
+        order=orders[i];
+        console.log(order);
         if(order.sender == req.params.user_id) {
           User.findById(order.reciever)
             .then(recepient => {
@@ -227,18 +257,24 @@ router.route('/lastOrder/:user_id').get((req, res)=> {
               lastOrder[1] = recepient.phone;
               lastOrder[2] = order.amount * (1 + (order.rate / 100.0));
               lastOrder[3] = "Teller"
+              lastOrder[4] = order.completeSender
+              lastOrder[5] = order._id
+              res.json(lastOrder)
             })
         }
         else if(order.reciever == req.params.user_id) {
           User.findById(order.sender)
             .then(sender => {
+              console.log(sender);
               lastOrder[0] = sender.f_name + " " + sender.l_name;
               lastOrder[1] = sender.phone;
               lastOrder[2] = order.amount * (1 + (order.rate / 100.0));
               lastOrder[3] = "Recipient"
+              lastOrder[4] = order.completeReciever
+              lastOrder[5] = order._id
+              res.json(lastOrder)
             })
         }
-        res.json(lastOrder)
       }
 
     })
