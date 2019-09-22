@@ -22,7 +22,7 @@ router.route("/register").post((req, res) => {
   console.log(req.body);
   first = req.body.f_name;
   last = req.body.l_name;
-  User.register({username: req.body.username, f_name: req.body.f_name, l_name: req.body.l_name, phone:req.body.phone,teller:false}, req.body.password, function(err, user){
+  User.register({username: req.body.username, f_name: req.body.f_name, l_name: req.body.l_name, phone:req.body.phone, teller:false, rate: 0}, req.body.password, function(err, user){
     if (err) {
       console.log(err);
       res.redirect("/register");
@@ -45,7 +45,6 @@ router.route("/register").post((req, res) => {
           zip: "77386"
         };
 
-
         const form = {
           first_name: first,
           last_name: last,
@@ -66,16 +65,13 @@ router.route("/register").post((req, res) => {
                 console.log("successfully made customer and added id");
               }
 
-
             });
-
-
 
           })
           .catch(err => console.log(err))
 
-
-        User.findOneAndUpdate({ "_id": req.user._id }, { "$set": {cashBalance:12345}}).exec(function(err, user){
+          let randomNum = Math.floor(Math.random() * 100 + 1);
+          User.findOneAndUpdate({ "_id": req.user._id }, { "$set": {cashBalance:randomNum}}).exec(function(err, user){
           if(err) {
             console.log(err);
             res.status(500).send(err);
