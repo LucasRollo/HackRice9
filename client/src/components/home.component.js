@@ -10,6 +10,7 @@ import Nav from "./nav.component";
 import '../home.css';
 import { Link } from 'react-router-dom';
 import Money from '../img/icons8_money_transfer_96px.png';
+import TellerList from './tellers-list.component';
 import path from 'path';
 
 export default class Home extends Component{
@@ -17,9 +18,12 @@ export default class Home extends Component{
         super(props);
 
         this.onChangeWithdraw = this.onChangeWithdraw.bind(this);
+        this.logLocation = this.logLocation.bind(this);
+
 
         this.state ={
-            withdraw: ''
+            withdraw: 0,
+            element: false
         }
     };
     componentWillMount() {
@@ -30,7 +34,7 @@ export default class Home extends Component{
         const re = /^[0-9\b]+$/;
         // if value is not blank, then test the regex
         if (e.target.value === '' || re.test(e.target.value)) {
-        this.setState({withdraw: e.target.value})
+        this.setState({withdraw: e.target.value, element: false})
         }
     }
 
@@ -39,29 +43,34 @@ export default class Home extends Component{
       axios.post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAWJfBTsAd8TQ83LdjHKj5XzgiCm92n2Ec")
         .then(res => {
           axios.post("http://localhost:5000/logLocation/"+cookie.load('user_id'), {long: res.data.location.lng, lat: res.data.location.lat})
-            .then(res => {window.location='/tellers-list'})
+            .catch(err => console.log(err))
         })
         .catch(err => {
           console.log(err);
         })
+
+      this.setState((prevState) => ({withdraw: prevState.withdraw, element: <TellerList money={ prevState.withdraw }/>}));
     }
 
     render(){
         return(
-            <>
-            <Nav/>
+            <div>
+              <Nav/>
                 <div className="container">
-
+                    { !this.state.element ? (
                     <Form className="form-container">
                     <Form.Group controlId="" className="withdraw-fields">
                     <h1 style={{textAlign:"center"}}> Withdraw</h1>
                         <Form.Control type="text" placeholder="Withdraw amount" style={{textAlign:"center"}} onChange={this.onChangeWithdraw} value={this.state.withdraw}/>
                     </Form.Group>
                     <button style={{margin:"auto", height: "70px"}} onClick={this.logLocation} className="button money-button"><img className="money-img"src={Money}></img></button>
-                    </Form>
+                    </Form>)
+
+                    : ( this.state.element )
+                  }
 
                 </div>
-            </>
+            </div>
         )
     }
 }

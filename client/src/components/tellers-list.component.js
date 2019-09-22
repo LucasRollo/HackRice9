@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios'
+import cookie from 'react-cookies';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Spinner from 'react-bootstrap/Spinner';
 
@@ -11,9 +12,10 @@ export default class TellersList extends Component{
     this.state = {isLoading: true, data: []};
   }
   componentDidMount() {
-    axios.get('http://localhost:5000/nearbyTeller/' + this.props.money)
+    axios.get('http://localhost:5000/nearbyTeller/' + this.props.money+'/'+cookie.load('user_id'))
       .then(response => {
-        this.setState({isLoading: false, data: response})
+        console.log(response.data)
+        this.setState({isLoading: false, data: response.data})
       })
       .catch(error => console.log(error))
   }
