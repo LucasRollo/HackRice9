@@ -100,6 +100,9 @@ export default class TellerSignup extends Component{
                 console.log('cashMoney'+this.state.cashBalance);
             if(this.state.cashBalance>=20){
                 this.setState({on:1});
+
+                //add axios here
+
                 button.innerHTML='Go Offline';
                 button.style.backgroundColor="red"; 
             }
