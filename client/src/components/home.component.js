@@ -32,6 +32,7 @@ export default class Home extends Component{
         this.nineOnClick = this.nineOnClick.bind(this);
         this.dotOnClick = this.dotOnClick.bind(this);
         this.logLocation = this.logLocation.bind(this);
+        this.titleOnClick = this.titleOnClick.bind(this);
 
 
         this.state ={
@@ -54,7 +55,9 @@ export default class Home extends Component{
               console.log(response.data);
             })
     }
-
+    titleOnClick(){
+        this.setState({element: false, withdraw: ''});
+    }
     oneOnClick(){
         this.setState({withdraw: this.state.withdraw+'1'});
     };
@@ -100,7 +103,11 @@ export default class Home extends Component{
       e.preventDefault()
       axios.post("https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyAWJfBTsAd8TQ83LdjHKj5XzgiCm92n2Ec")
         .then(res => {
+<<<<<<< HEAD
           console.log(res.data.location);
+=======
+            console.log(res);
+>>>>>>> 17a90ee5a2daf4aa859032a1bce2fad7a7c94d44
           axios.post("http://localhost:5000/logLocation/"+cookie.load('user_id'), {long: res.data.location.lng, lat: res.data.location.lat})
             .then(respo => this.makeTellersList())
             .catch(err => console.log(err))
@@ -114,7 +121,9 @@ export default class Home extends Component{
     render(){
         return(
             <div>
-              <Nav/>
+              <Nav  />
+              {this.state.element ?<div className="home-back-btn"onClick={this.titleOnClick}><img src={Backarrow}/></div> : null}
+              
                 <div className="container">
                     { !this.state.element ? (
                     <Form className="form-container">
@@ -147,7 +156,7 @@ export default class Home extends Component{
                     <button style={{margin:"auto", height: "70px"}} onClick={this.logLocation} className="button money-button"><img className="money-img"src={Money}></img></button>
                     </Form>)
 
-                    : ( this.state.element )
+                    :( this.state.element )
                   }
 
                 </div>

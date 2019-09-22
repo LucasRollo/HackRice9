@@ -1,5 +1,5 @@
 .navbar{
-    height: 50px;
+    height: 66px;
 }
 body{
     height: 100vh;
@@ -43,7 +43,7 @@ img{
     display: flex;
     align-items: center;
     justify-content: space-around;
-    flex-direction: column; 
+    flex-direction: column;
     height: calc(100vh - 60px);
     overflow:hidden;
     /* margin-top: 50px; */
@@ -71,4 +71,7 @@ img{
 }
 #backarrow{
     filter: brightness(0);
+}
+.home-back-btn:hover{
+    cursor: pointer;
 }

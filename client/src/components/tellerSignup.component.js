@@ -149,7 +149,7 @@ export default class TellerSignup extends Component{
         return(
             <>
             <NavTeller />
-            <div className='container'>
+            <div className='container spaceContainer'>
                 <h1>Your Balance</h1>
             <Row>
                 <h3>Ones:</h3>
@@ -176,6 +176,7 @@ export default class TellerSignup extends Component{
                 <h3>Hundreds:</h3>
                 <Form.Control onChange={this.hundredsUpdate} onClick={this.SelectAll} className="bill-input"type="text" name='hundreds' id="txtfld5" disabled={this.state.on} value={this.state.hundreds}/>
             </Row>
+            <br></br>
             <h1>Your Rules</h1>
             <h6>How many cents do you want to make per dollar you dispense <span>(we reccomend 1-3)</span></h6>
             <Row>

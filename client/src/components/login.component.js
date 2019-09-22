@@ -56,9 +56,12 @@ export default class Login extends Component{
     }
     render(){
         return(
-            <div className="container">
+            <div className="container spaceContainer">
             <Form onSubmit={this.onFormSubmit}>
+            <br></br>
             <h1>Login</h1>
+            <br></br>
+            <br></br>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Control type="email" placeholder="Enter email" onChange={this.onChangeUsername}/>
                 </Form.Group>
@@ -66,11 +69,11 @@ export default class Login extends Component{
                 <Form.Group controlId="formBasicPassword">
                     <Form.Control type="password" placeholder="Password" onChange={this.onChangePassword}/>
                 </Form.Group>
-                <Button variant="success" type="submit">
-                    Submit
-                </Button>
                 <br></br>
-                <Link to="/register">Dont have an account. Create One</Link>
+                <h1 style={{marginBottom: "none"}}><Button variant="success" type="submit">
+                    Submit
+                </Button></h1>
+                <h6 style={{textAlign: "center"}} ><Link to="/register">Dont have an account. Create One</Link></h6>
                 <h6 id="alert" style={{display: 'none',color:'red'}}>Incorrect Username and password</h6>
             </Form>
             </div>
