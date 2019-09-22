@@ -101,7 +101,8 @@ export default class TellerSignup extends Component{
             if(this.state.cashBalance>=20){
                 this.setState({on:1});
 
-                //add axios here
+                //PUT THE AXIOS REQUEST HERE
+
 
                 button.innerHTML='Go Offline';
                 button.style.backgroundColor="red"; 
