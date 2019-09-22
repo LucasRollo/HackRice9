@@ -63,6 +63,9 @@ export default class Home extends Component{
                     <h1 style={{textAlign:"center"}}> Withdraw</h1>
                         <Form.Control type="text" placeholder="Withdraw amount" style={{textAlign:"center"}} onChange={this.onChangeWithdraw} value={this.state.withdraw}/>
                     </Form.Group>
+                    <div>
+                        
+                    </div>
                     <button style={{margin:"auto", height: "70px"}} onClick={this.logLocation} className="button money-button"><img className="money-img"src={Money}></img></button>
                     </Form>)
 

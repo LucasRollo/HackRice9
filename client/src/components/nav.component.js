@@ -33,7 +33,7 @@ export default class Nav extends Component{
         return(
             <nav className="navbar navbar-light bg-light">
                 <button id="book" onClick={this.bookOnClick} className="button"><img src={Book}></img></button>
-                <h3>MyCash</h3>
+                <h3>CloseCash</h3>
                 <button id="hand" onClick={this.handsOnClick} className="button"><img src={Hands}></img></button>
             </nav>
         )
