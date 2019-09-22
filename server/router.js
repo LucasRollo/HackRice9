@@ -140,7 +140,7 @@ router.route("/nearbyTeller/:money/:user_id").get((req, res) => {
 
 
 
-      return res.json({'tellers': availableTellers, img: "https://maps.googleapis.com/maps/api/staticmap?size=400x400&markers=" + coords + "&key=AIzaSyAWJfBTsAd8TQ83LdjHKj5XzgiCm92n2Ec"});
+      return res.json({'tellers': availableTellers, "img": "https://maps.googleapis.com/maps/api/staticmap?size=400x400&markers=" + coords + "&key=AIzaSyAWJfBTsAd8TQ83LdjHKj5XzgiCm92n2Ec"});
     })
   })
 });
@@ -249,8 +249,8 @@ router.route('/lastOrder').get((req, res)=> {
     })
 })
 
-router.route('/bankBalance').get((req,res) => {
-  User.findById(req.session.id)
+router.route('/bankBalance/:user_id').get((req,res) => {
+  User.findById(req.params.user_id)
     .then(user => {
       axios.get(`http://api.reimaginebanking.com/customers/${user.customer_id}/accounts?key=${process.env.NESSY_DEV_KEY}`)
         .then(response => {
@@ -258,6 +258,26 @@ router.route('/bankBalance').get((req,res) => {
         })
         .catch(err => res.json(err))
     })
+})
+
+router.route('/transfer').post((req,res) => {
+  acct_reciever = 0;
+  User.find(req.body.reciever)
+    .then(user => {
+      axios.get(`http://api.reimaginebanking.com/customers/${user.customer_id}/accounts?key=${process.env.NESSY_DEV_KEY}`)
+        .then(response => {
+          acct_reciever = response[0]
+        })
+    })
+  acct_sender = 0;
+  User.find(req.body.sender)
+    .then(user => {
+      axios.get(`http://api.reimaginebanking.com/customers/${user.customer_id}/accounts?key=${process.env.NESSY_DEV_KEY}`)
+        .then(response => {
+          acct_sender = response[0]
+        })
+    })
+  axios.post(`http://api.reimaginebanking.com/accounts/${acct_reciever._id}/transfers?key=${process.env.NESSY_DEV_KEY}`, {"medium": "balance", "payee_id": acct_sender._id,  "transaction_date": "2019-09-22", "status": "pending", "description": "string"})
 })
 
 module.exports = router;
