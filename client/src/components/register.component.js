@@ -90,7 +90,7 @@ export default class Register extends Component{
     }
     render(){
         return(
-            <div class="container">
+            <div class="container spaceContainer">
             <Form onSubmit={this.onFormSubmit}>
                 <h1>Register</h1>
                 <Row>
@@ -114,10 +114,10 @@ export default class Register extends Component{
                     <Form.Control type="password" placeholder="Re-enter password" onChange={this.onChangePassword2}/>
                 </Form.Group>
 
-                <Button id="submit"variant="outline-success" type="submit" disabled>
+                <Button id="submit"variant="success" type="submit" disabled>
                     Submit
                 </Button>
-                
+                <br></br>
                 <Link to="/login">Already Have an account? login</Link>
             </Form>
             </div>
