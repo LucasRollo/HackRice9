@@ -113,15 +113,16 @@ export default class Register extends Component{
                 <Form.Group controlId="formBasicPassword2">
                     <Form.Control type="password" placeholder="Re-enter password" onChange={this.onChangePassword2}/>
                 </Form.Group>
-                
+
                 <Button id="submit"variant="outline-success" type="submit" disabled>
                     Submit
                 </Button>
+                
                 <Link to="/login">Already Have an account? login</Link>
             </Form>
             </div>
         );
     }
-    
-    
+
+
 }
