@@ -218,7 +218,7 @@ router.route('/lastOrder/:user_id').get((req, res)=> {
     .then(orders => {
       lastOrder = []
 
-      for(i=0;i<orders.length;i++){
+      for(i=0;i<orders.length;i++) {
         order=order[i];
         if(order.sender == req.params.user_id) {
           User.findById(order.reciever)
@@ -227,10 +227,7 @@ router.route('/lastOrder/:user_id').get((req, res)=> {
               lastOrder[1] = recepient.phone;
               lastOrder[2] = order.amount * (1 + (order.rate / 100.0));
               lastOrder[3] = "Teller"
-              res.json(lastOrder)
             })
-
-          break;
         }
         else if(order.reciever == req.params.user_id) {
           User.findById(order.sender)
@@ -239,11 +236,9 @@ router.route('/lastOrder/:user_id').get((req, res)=> {
               lastOrder[1] = sender.phone;
               lastOrder[2] = order.amount * (1 + (order.rate / 100.0));
               lastOrder[3] = "Recipient"
-              res.json(lastOrder)
             })
-
-          break;
         }
+        res.json(lastOrder)
       }
 
     })

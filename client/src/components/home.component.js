@@ -47,10 +47,14 @@ export default class Home extends Component{
         const re = /^[0-9\b]+$/;
         // if value is not blank, then test the regex
         if (e.target.value === '' || re.test(e.target.value)) {
-        this.setState({withdraw: e.target.value, element: false})
+          this.setState({withdraw: e.target.value, element: false})
         }
+        axios.get(`http://localhost:5000/bankBalance/${cookie.load('user_id')}`)
+            .then(response => {
+              console.log(response.data);
+            })
     }
-    
+
     oneOnClick(){
         this.setState({withdraw: this.state.withdraw+'1'});
     };

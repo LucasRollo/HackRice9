@@ -26,7 +26,7 @@ export default class Nav extends Component{
         window.location=('/tellerSignup');
     };
     bookOnClick(){
-        console.log('book was clicked');
+        window.location=('/view-order')
     };
     render(){
         return(
