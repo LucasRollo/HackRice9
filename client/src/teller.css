@@ -1,0 +1,47 @@
+/* h3, h4{
+    display: block;
+} */
+h5, h4{
+    margin-bottom: 0;
+}
+.container{
+    padding: 0;
+}
+.teller-wrapper{
+    height: calc((100vh - 50px)/2);
+}
+.teller-container{
+    /* border-color: rgb(0, 0, 0);
+    border-width: 2px;
+    border-bottom: solid; */
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.name-sec{
+    /* display: block; */
+    /* float: left; */
+}
+span{
+    /* font-size: .1em; */
+}
+sub{
+    margin-left: 10px;
+}
+.data-sec{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.teller-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    /* display:block; */
+    width:100vw;
+}
+.border{
+    margin-top:5px;
+    margin-bottom:5px;
+    color: #000000;
+}

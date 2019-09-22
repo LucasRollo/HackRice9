@@ -18,7 +18,6 @@ import path from 'path';
 export default class Home extends Component{
     constructor(props){
         super(props);
-
         this.onChangeWithdraw = this.onChangeWithdraw.bind(this);
         this.oneOnClick = this.oneOnClick.bind(this);
         this.zeroOnClick = this.zeroOnClick.bind(this);
@@ -51,12 +50,7 @@ export default class Home extends Component{
         this.setState({withdraw: e.target.value, element: false})
         }
     }
-    handsOnClick(){
-        window.location=('/tellerSignup');
-    };
-    bookOnClick(){
-        console.log('book was clicked');
-    };
+    
     oneOnClick(){
         this.setState({withdraw: this.state.withdraw+'1'});
     };
